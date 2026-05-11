@@ -1,0 +1,13 @@
+id,name,department,age,salary,hire_date,performance
+1,Alice,Engineering,25,300000,2022-04-01,4.2
+2,Bob,Sales,30,450000,2019-07-15,3.8
+3,Charlie,Engineering,35,380000,2018-01-10,4.5
+4,Diana,HR,28,420000,2020-11-01,
+5,Eve,Sales,22,310000,2023-04-01,3.5
+6,Frank,Engineering,40,520000,2015-06-20,4.8
+7,Grace,HR,33,,2017-03-15,4.0
+8,Hiro,Sales,27,390000,2021-09-01,3.2
+9,Iris,Engineering,29,410000,2020-04-01,4.1
+10,Jack,HR,45,480000,2012-08-01,
+11,Karen,Sales,31,360000,2019-01-20,3.9
+12,Leo,Engineering,26,330000,2023-07-01,4.3
