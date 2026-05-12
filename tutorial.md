@@ -274,6 +274,118 @@ print(dog)           # Animal(name='Rex')
 
 ---
 
+## 練習問題
+
+基本文法の理解を確認するための練習問題です。
+
+### 問題 1: FizzBuzz
+
+1 から 30 までの整数を順に出力してください。ただし、次のルールに従います。
+
+- 3 の倍数のとき → `Fizz`
+- 5 の倍数のとき → `Buzz`
+- 3 と 5 両方の倍数のとき → `FizzBuzz`
+- それ以外 → その数をそのまま出力
+
+```python
+for i in range(1, 31):
+    if i % 15 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+```
+
+### 問題 2: 素数リスト
+
+2 以上 50 以下の素数をすべてリストに格納して出力してください。`is_prime(n)` 関数を実装してから、リスト内包表記で素数リストを作りましょう。
+
+```python
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+primes = [n for n in range(2, 51) if is_prime(n)]
+print(primes)  # [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+```
+
+### 問題 3: 回文チェック
+
+文字列が回文（前から読んでも後ろから読んでも同じ）かどうかを判定する `is_palindrome(s)` 関数を実装してください。大文字・小文字・スペースは無視します。
+
+```python
+def is_palindrome(s):
+    cleaned = s.lower().replace(" ", "")
+    return cleaned == cleaned[::-1]
+
+print(is_palindrome("racecar"))                       # True
+print(is_palindrome("hello"))                         # False
+print(is_palindrome("A man a plan a canal Panama"))   # True
+```
+
+### 問題 4: 単語の出現回数
+
+文章中の各単語が何回出現するかを辞書で集計し、出現回数が多い順に上位 5 件を表示してください。
+
+```python
+text = """
+to be or not to be that is the question
+whether tis nobler in the mind to suffer
+the slings and arrows of outrageous fortune
+or to take arms against a sea of troubles
+"""
+
+word_count = {}
+for word in text.split():
+    word_count[word] = word_count.get(word, 0) + 1
+
+top5 = sorted(word_count.items(), key=lambda x: x[1], reverse=True)[:5]
+for word, count in top5:
+    print(f"{word}: {count}")
+```
+
+### 問題 5: スタッククラス
+
+LIFO（後入れ先出し）の `Stack` クラスを実装してください。
+
+| メソッド | 説明 |
+|----------|------|
+| `push(item)` | 要素を追加する |
+| `pop()` | 最後に追加した要素を取り出す（空なら `None`） |
+| `peek()` | 取り出さずに先頭要素を確認する（空なら `None`） |
+| `is_empty()` | スタックが空かどうかを返す |
+| `__len__()` | 要素数を返す |
+
+```python
+class Stack:
+    def __init__(self):
+        self._data = []
+
+    def push(self, item):
+        self._data.append(item)
+
+    def pop(self):
+        return self._data.pop() if self._data else None
+
+    def peek(self):
+        return self._data[-1] if self._data else None
+
+    def is_empty(self):
+        return len(self._data) == 0
+
+    def __len__(self):
+        return len(self._data)
+```
+
+---
+
 ## numpy
 
 numpy は数値計算のための基本ライブラリであり，多次元配列（ndarray）と高速な演算を提供する。
@@ -411,6 +523,89 @@ print(c.shape)  # (2, 6)
 print(b.flatten())    # 1次元に変換 (コピー)
 print(b.ravel())      # 1次元に変換 (可能ならビュー)
 print(b.T)            # 転置 (shape が (4, 3) になる)
+```
+
+---
+
+## numpy 練習問題
+
+### 問題 1: 配列の作成と基本統計
+
+1 から 20 までの奇数からなる 1 次元配列を作成し、合計・平均・最大値・最小値・標準偏差を表示してください。
+
+```python
+import numpy as np
+
+odds = np.arange(1, 21, 2)
+print("array:", odds)
+print("合計:", np.sum(odds))
+print("平均:", np.mean(odds))
+print(f"最大: {np.max(odds)} / 最小: {np.min(odds)}")
+print(f"標準偏差: {np.std(odds):.2f}")
+# array: [ 1  3  5  7  9 11 13 15 17 19]
+# 合計: 100 / 平均: 10.0 / 最大: 19 / 最小: 1 / 標準偏差: 5.74
+```
+
+### 問題 2: ブールインデックスによる置換
+
+seed=0 で生成した 0〜1 の一様乱数 20 個の配列に対して、0.5 以上の要素を `1.0`、未満を `0.0` に変換した配列 `binary` を作り、`1.0` の個数を表示してください。
+
+```python
+rng = np.random.default_rng(seed=0)
+arr = rng.random(20)
+
+binary = np.where(arr >= 0.5, 1.0, 0.0)
+print("binary:  ", binary)
+print("1.0 の個数:", int(binary.sum()))
+```
+
+### 問題 3: 行列演算
+
+次の 3×3 行列 A について、列ごとの合計・行ごとの最大値・A と A の転置の行列積を求めてください。
+
+```python
+A = np.array([[1, 2, 3],
+              [4, 5, 6],
+              [7, 8, 9]])
+
+print("列ごとの合計:", np.sum(A, axis=0))   # [12 15 18]
+print("行ごとの最大:", np.max(A, axis=1))   # [3 6 9]
+print("A @ A.T:")
+print(A @ A.T)
+# [[ 14  32  50]
+#  [ 32  77 122]
+#  [ 50 122 194]]
+```
+
+### 問題 4: ブロードキャストで一括変換
+
+摂氏温度の配列を華氏に一括変換し（$F = C \times 9/5 + 32$）、沸点（100 °C）を超える要素のインデックスを求めてください。
+
+```python
+celsius = np.array([0, 20, 37, 60, 100, 120])
+
+fahrenheit = celsius * 9 / 5 + 32
+print("華氏:", fahrenheit)  # [ 32.  68.  98.6 140. 212. 248.]
+
+above_boiling = np.where(celsius > 100)[0]
+print("沸点超えのインデックス:", above_boiling)  # [4 5]
+```
+
+### 問題 5: 形状変換と行ごとの正規化
+
+`np.arange(24)` から shape `(4, 6)` の行列を作り、各行を 0〜1 に正規化してください。  
+正規化の式: $(x - x_{\min}) / (x_{\max} - x_{\min})$
+
+```python
+mat = np.arange(24).reshape(4, 6)
+
+row_min = np.min(mat, axis=1, keepdims=True)
+row_max = np.max(mat, axis=1, keepdims=True)
+normalized = (mat - row_min) / (row_max - row_min)
+print(normalized)
+# [[0.  0.2 0.4 0.6 0.8 1. ]
+#  [0.  0.2 0.4 0.6 0.8 1. ]
+#  ...]
 ```
 
 ---
